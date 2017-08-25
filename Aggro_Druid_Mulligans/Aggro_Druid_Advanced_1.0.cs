@@ -45,7 +45,7 @@ namespace SmartBot.Mulligan
 
 /// DO NOT CHANGE ANYTHING BETWEEN THIS AND 'START OF MULLIGAN RULES'
 
-        private string _log = "\r\n---Aggro_Druid_1.2 Mulligan---"; 
+        private string _log = "\r\n---Aggro_Druid_Advanced_1.0 Mulligan---"; 
         private List<Card.Cards> _choices; 
         private readonly List<Card.Cards> _keep = new List<Card.Cards>();  //Defined list of cards we will keep. This is what needs to be filled in and returned in HandleMulligan
 
@@ -186,7 +186,12 @@ namespace SmartBot.Mulligan
 			
 			if (minionCount >=1)
 			{
-				Keep("-> keep Druid of the swarm with 1 or more OneDrops", Cards.DruidoftheSwarm, Cards.DruidoftheSwarm);
+				Keep("-> keep Druid of the swarm with 1 or more OneDrops", Cards.DruidoftheSwarm);
+			}
+			
+			if (minionCount >= 2)
+			{
+				Keep("-> keep two Druid of the Swarm with 2 or more 1-drops", Cards.DruidoftheSwarm, Cards.DruidoftheSwarm);
 			}
 			
 			if ((minionCount >= 2)
@@ -194,12 +199,12 @@ namespace SmartBot.Mulligan
 				Keep("-> keep with 2 or more 1-drops", Cards.DireWolfAlpha, Cards.DireWolfAlpha, Cards. DruidoftheSwarm, Cards.DruidoftheSwarm);
 			}
 			
-			if (minionCount >= 2)
+			if (minionCount >= 3 || (Kept(Defs.OneDropMinions >= 2)))
 			{
 				Keep("-> keep power of the wild with 2 or more OneDrops", Cards.PoweroftheWild);
 			}
 			
-			if ((Kept(Defs.TwoDrops)) >=1 && (Kept(Defs.OneDrops)) >= 2)
+			if ((Kept(Defs.TwoDrops)) >=1 && minionCount >= 2)
 			{
 				Keep("-> keep with good curve", Cards.CryptLord, Cards.ViciousFledgling);
 			}
@@ -208,7 +213,7 @@ namespace SmartBot.Mulligan
 			
 /// END OF MULLIGAN RULES
 						
-/// DO NOT CHANGE ANYTHING BELOW (except change Aggro_Druid_1.2 to the name of the mulligan profile in 4th line from the bottom)
+/// DO NOT CHANGE ANYTHING BELOW (except change Aggro_Druid_Advanced_1.0 to the name of the mulligan profile in 4th line from the bottom)
 			
 			
             PrintLog();
@@ -282,7 +287,7 @@ namespace SmartBot.Mulligan
         private void PrintLog()
         {
             Bot.Log(_log);
-            _log = "\r\n---Aggro_Druid_1.2 Mulligan---";
+            _log = "\r\n---Aggro_Druid_Advanced_1.0 Mulligan---";
         }
     }
 }
