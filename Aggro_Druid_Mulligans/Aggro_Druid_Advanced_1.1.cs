@@ -161,7 +161,7 @@ namespace SmartBot.Mulligan
 			
 			if (_keep.Contains(Cards.EnchantedRaven))
 			{
-				Keep("-> keep Mark with Raven", Cards.MarkofYShaarj);
+				Keep("-> keep Mark with EnchantedRaven", Cards.MarkofYShaarj);
 			}
 			
 			if (minionCount >=1)
@@ -179,9 +179,9 @@ namespace SmartBot.Mulligan
 				Keep("-> keep with 2 or more 1-drops", Cards.DireWolfAlpha, Cards.DireWolfAlpha, Cards. DruidoftheSwarm, Cards.DruidoftheSwarm);
 			}
 			
-			if (minionCount >= 3)
+			if (minionCount >= 4)
 			{
-				Keep("-> keep power of the wild with 2 or more OneDrops", Cards.PoweroftheWild);
+				Keep("-> keep power of the wild with 4 or more OneDrops", Cards.PoweroftheWild);
 			}
 			
 			if ((Kept(Defs.TwoDrops)) >=1 && minionCount >= 2)
