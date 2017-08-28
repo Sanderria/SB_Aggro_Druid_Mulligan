@@ -28,13 +28,11 @@ namespace SmartBot.Mulligan
 	x != y	not equal to
 */
 	
-    public class Druid : MulliganProfile // If mulligan is not for Shaman, change 'Shaman' to applicable class name (Priest, Mage, etc.)
+    public class Druid : MulliganProfile
     {
         
 /// SECTION ZERO: Name your Groups (Types)	
 		
-		//You need to add all new types of cards here before using them.
-        //You also need to define them before using "Kept" "HasChoice" "KeptNumb" "HasChoiceNumb" or you will get an error
         private enum Defs
         {
             OneDrops,
@@ -45,7 +43,7 @@ namespace SmartBot.Mulligan
 
 /// DO NOT CHANGE ANYTHING BETWEEN THIS AND 'START OF MULLIGAN RULES'
 
-        private string _log = "\r\n---Aggro_Druid_Advanced_1.0 Mulligan---"; 
+        private string _log = "\r\n---Aggro_Druid_Advanced_1.1 Mulligan---"; 
         private List<Card.Cards> _choices; 
         private readonly List<Card.Cards> _keep = new List<Card.Cards>();  //Defined list of cards we will keep. This is what needs to be filled in and returned in HandleMulligan
 
@@ -88,8 +86,7 @@ namespace SmartBot.Mulligan
 			int minionCount = 0;
 			/// SECTION TWO: Cards we always keep, vs all classes:
 			
-            Keep("-> We always keep this", Cards.Innervate, Cards.BloodsailCorsair, Cards.BloodsailCorsair, 
-			Cards.EnchantedRaven, Cards.EnchantedRaven, Cards.FireFly, Cards.FireFly, Cards.MarkoftheLotus); 
+            Keep("-> We always keep this", Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly, Cards.MarkoftheLotus); 
 			
 				
 			/// SECTION THREE: Cards we want to keep vs specific classes:
@@ -102,74 +99,57 @@ namespace SmartBot.Mulligan
 					Keep("-> keep vs Druid", Cards.ArchmageAntonidas);
 					
 					break;		
-		
-			   case Card.CClass.HUNTER:
-				
-                    Keep("-> keep vs Hunter", Cards.ArchmageAntonidas); 
-                    
-					break;				
-				
-				case Card.CClass.MAGE:
-				
-                    Keep("-> keep vs Mage", Cards.ArchmageAntonidas); 
-
-					break;
-
-				case Card.CClass.PALADIN:
-				
-					Keep("-> keep vs Paladin", Cards.ArchmageAntonidas);
-					
-					break;
-					
-				case Card.CClass.PRIEST:
-				
-					Keep("-> keep vs Priest", Cards.ArchmageAntonidas);
-					
-					break;
-
-				case Card.CClass.ROGUE:
-
-					Keep("-> keep vs Quest Rogue", Cards.ArchmageAntonidas); 
-
-					break;
-				
-				case Card.CClass.SHAMAN:
-                    
-					Keep("-> keep vs Shaman", Cards.ArchmageAntonidas);
-									
-                    break;			
-				
-			   case Card.CClass.WARLOCK:
-				
-                    Keep("-> keep vs Warlock", Cards.ArchmageAntonidas); 
-					
-                    break;
-					
-			   case Card.CClass.WARRIOR:
-                   
-					Keep("-> keep vs Warrior", Cards.ArchmageAntonidas); 
-					
-                    break;					
+							
             }
           
 			/// SECTION FOUR: advanced rules:
 
-			// EXAMPLE: With coin, keep 2x Tunnel Trogg + Totem Golem:
-
-			/// Minion Count added Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly);
+			/// Minion Count added Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly
+			
+			// 2x EnchantedRaven == 2, 1x EnchantedRaven == 1
 			if (_keep.Contains(Cards.EnchantedRaven))
 			{
-				minionCount = minionCount + 1;
+				if (_keep.Contains(Cards.EnchantedRaven) && _choices.Contains(Cards.EnchantedRaven))
+				{
+					Keep("->Keep both EnchantedRavens", Cards.EnchantedRaven, Cards.EnchantedRaven);
+					minionCount = minionCount + 2;
+				}
+				else
+					if (_keep.Contains(Cards.EnchantedRaven) && !_choices.Contains(Cards.EnchantedRaven))
+					{
+						minionCount = minionCount + 1;
+					}
 			}
 			
+			// 2x BloodsailCorsair == 3, 1x BloodsailCorsair == 2
 			if (_keep.Contains(Cards.BloodsailCorsair))
 			{
-				minionCount = minionCount + 2;
+				if (_keep.Contains(Cards.BloodsailCorsair) && _choices.Contains(Cards.BloodsailCorsair))
+				{
+					Keep("->Keep both BloodsailCorsairs", Cards.BloodsailCorsair, Cards.BloodsailCorsair);
+					minionCount = minionCount + 3;
+				}
+				else
+					if (_keep.Contains(Cards.BloodsailCorsair) && !_choices.Contains(Cards.BloodsailCorsair))
+					{
+						minionCount = minionCount + 2;
+					}
 			}
 			
+			// 2x FireFly == 4, 1x FireFly == 2
 			if (_keep.Contains(Cards.FireFly))
 			{
-				minionCount = minionCount + 2;
+				if (_keep.Contains(Cards.FireFly) && _choices.Contains(Cards.FireFly))
+				{
+					Keep("->Keep both FireFlys", Cards.FireFly, Cards.FireFly);
+					minionCount = minionCount + 4;
+				}			
+				else
+					if (_keep.Contains(Cards.FireFly) && !_choices.Contains(Cards.FireFly))
+					{
+						minionCount = minionCount + 2;
+					}
+				
 			}
 			
 			/// Minion Count Stops
@@ -194,12 +174,12 @@ namespace SmartBot.Mulligan
 				Keep("-> keep two Druid of the Swarm with 2 or more 1-drops", Cards.DruidoftheSwarm, Cards.DruidoftheSwarm);
 			}
 			
-			if ((minionCount >= 2))
+			if (minionCount >= 3)
 			{
 				Keep("-> keep with 2 or more 1-drops", Cards.DireWolfAlpha, Cards.DireWolfAlpha, Cards. DruidoftheSwarm, Cards.DruidoftheSwarm);
 			}
 			
-			if (minionCount >= 3 || (Kept(Defs.OneDropMinions) >= 2))
+			if (minionCount >= 3)
 			{
 				Keep("-> keep power of the wild with 2 or more OneDrops", Cards.PoweroftheWild);
 			}
@@ -210,10 +190,9 @@ namespace SmartBot.Mulligan
 			}
 			
 			
-			
 /// END OF MULLIGAN RULES
 						
-/// DO NOT CHANGE ANYTHING BELOW (except change Aggro_Druid_Advanced_1.0 to the name of the mulligan profile in 4th line from the bottom)
+/// DO NOT CHANGE ANYTHING BELOW (except change Aggro_Druid_Advanced_1.1 to the name of the mulligan profile in 4th line from the bottom)
 			
 			
             PrintLog();
@@ -287,7 +266,7 @@ namespace SmartBot.Mulligan
         private void PrintLog()
         {
             Bot.Log(_log);
-            _log = "\r\n---Aggro_Druid_Advanced_1.0 Mulligan---";
+            _log = "\r\n---Aggro_Druid_Advanced_1.1 Mulligan---";
         }
     }
 }
