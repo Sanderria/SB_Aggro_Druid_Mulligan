@@ -27,7 +27,7 @@ namespace SmartBot.Mulligan
 	x == y	equal to
 	x != y	not equal to
 */
-		
+	
     public class Druid : MulliganProfile // If mulligan is not for Shaman, change 'Shaman' to applicable class name (Priest, Mage, etc.)
     {
         
@@ -152,7 +152,7 @@ namespace SmartBot.Mulligan
                     break;					
             }
           
-			/// SECTION FOUR: advanced mulligan rules:
+			/// SECTION FOUR: advanced rules:
 
 			// EXAMPLE: With coin, keep 2x Tunnel Trogg + Totem Golem:
 
@@ -167,7 +167,7 @@ namespace SmartBot.Mulligan
 				minionCount = minionCount + 2;
 			}
 			
-			if (_keep.Contains(Cards.FireFly)
+			if (_keep.Contains(Cards.FireFly))
 			{
 				minionCount = minionCount + 2;
 			}
@@ -194,12 +194,12 @@ namespace SmartBot.Mulligan
 				Keep("-> keep two Druid of the Swarm with 2 or more 1-drops", Cards.DruidoftheSwarm, Cards.DruidoftheSwarm);
 			}
 			
-			if ((minionCount >= 2)
+			if ((minionCount >= 2))
 			{
 				Keep("-> keep with 2 or more 1-drops", Cards.DireWolfAlpha, Cards.DireWolfAlpha, Cards. DruidoftheSwarm, Cards.DruidoftheSwarm);
 			}
 			
-			if (minionCount >= 3 || (Kept(Defs.OneDropMinions >= 2)))
+			if (minionCount >= 3 || (Kept(Defs.OneDropMinions) >= 2))
 			{
 				Keep("-> keep power of the wild with 2 or more OneDrops", Cards.PoweroftheWild);
 			}
