@@ -3,18 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using SmartBot.Database;
 using SmartBot.Plugins.API;
-
-namespace SmartBot.Mulligan
-{
-    public static class Extension2
-    {
-        public static bool ContainsAll<T1>(this IList<T1> list, params T1[] items)
-        {
-            return !items.Except(list).Any();
-        }
-    }
-    [Serializable]
-	
 /*
 	//		in front of text means it is a comment and does nothing
 	&&		AND
@@ -27,13 +15,22 @@ namespace SmartBot.Mulligan
 	x == y	equal to
 	x != y	not equal to
 */
+namespace SmartBot.Mulligan
+{
+    public static class Extension2
+    {
+        public static bool ContainsAll<T1>(this IList<T1> list, params T1[] items)
+        {
+            return !items.Except(list).Any();
+        }
+    }
+    [Serializable]
+	
 	
     public class Druid : MulliganProfile
     {
-        
-/// SECTION ZERO: Name your Groups (Types)	
-		
-        private enum Defs
+        /// SECTION ZERO: Name your Groups (Types)
+        private enum Defs 	
         {
             OneDrops,
             TwoDrops,
@@ -76,7 +73,6 @@ namespace SmartBot.Mulligan
 /// START OF MULLIGAN RULES
 
 			/// SECTION ONE: Groups (Types)
-			/// Combine cards in groups (types) if you want, like OneDrops, TwoDrops, Threedrops (you can create other groups/types in Section Zero)
 			
             Define(Defs.OneDrops, Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly);
 			Define(Defs.TwoDrops, Cards.DireWolfAlpha, Cards.DruidoftheSwarm);
@@ -106,7 +102,7 @@ namespace SmartBot.Mulligan
 
 			/// Minion Count added Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly
 			
-			// 2x EnchantedRaven == 2, 1x EnchantedRaven == 1
+			// 2x EnchantedRaven == +2, 1x EnchantedRaven == +1
 			if (_keep.Contains(Cards.EnchantedRaven))
 			{
 				if (_keep.Contains(Cards.EnchantedRaven) && _choices.Contains(Cards.EnchantedRaven))
@@ -121,7 +117,7 @@ namespace SmartBot.Mulligan
 					}
 			}
 			
-			// 2x BloodsailCorsair == 3, 1x BloodsailCorsair == 2
+			// 2x BloodsailCorsair == +3, 1x BloodsailCorsair == +2
 			if (_keep.Contains(Cards.BloodsailCorsair))
 			{
 				if (_keep.Contains(Cards.BloodsailCorsair) && _choices.Contains(Cards.BloodsailCorsair))
@@ -136,7 +132,7 @@ namespace SmartBot.Mulligan
 					}
 			}
 			
-			// 2x FireFly == 4, 1x FireFly == 2
+			// 2x FireFly == +4, 1x FireFly == +2
 			if (_keep.Contains(Cards.FireFly))
 			{
 				if (_keep.Contains(Cards.FireFly) && _choices.Contains(Cards.FireFly))
