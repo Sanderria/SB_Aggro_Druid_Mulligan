@@ -40,7 +40,7 @@ namespace SmartBot.Mulligan
             ThreeDrops,
 			OneDropMinions,
         }
-			/// Unnecesarry
+		/// Unnecessary
 #region Unnecessary
 		/// DO NOT CHANGE ANYTHING BETWEEN THIS AND 'START OF MULLIGAN RULES'
 
@@ -101,9 +101,8 @@ namespace SmartBot.Mulligan
 					break;		
 							
             }
-
-			/// MinionCount
-#region minionCount
+///minionCount
+			#region minionCount
 			// 2x EnchantedRaven == 2, 1x EnchantedRaven == 1
 			if (_keep.Contains(Cards.EnchantedRaven))
 			{
