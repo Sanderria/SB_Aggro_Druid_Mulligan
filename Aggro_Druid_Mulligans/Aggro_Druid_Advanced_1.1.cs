@@ -3,22 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using SmartBot.Database;
 using SmartBot.Plugins.API;
-<<<<<<< HEAD
-/*
-	//		in front of text means it is a comment and does nothing
-	&&		AND
-	||		OR
-	!		NOT
-	x < y	less than (true if x is less than y).
-	x > y	greater than (true if x is greater than y).
-	x <= y	less than or equal to.
-	x >= y	greater than or equal to.
-	x == y	equal to
-	x != y	not equal to
-*/
-=======
 
->>>>>>> 032732533bb4793485f95ca769e326d4716b1330
 namespace SmartBot.Mulligan
 {
     public static class Extension2
@@ -29,11 +14,6 @@ namespace SmartBot.Mulligan
         }
     }
     [Serializable]
-<<<<<<< HEAD
-	
-	
-    public class Druid : MulliganProfile
-=======
 	/// Tips
 	/*
 		//		in front of text means it is a comment and does nothing
@@ -49,10 +29,11 @@ namespace SmartBot.Mulligan
 	*/
 	
 	public class Druid : MulliganProfile
->>>>>>> 032732533bb4793485f95ca769e326d4716b1330
     {
-        /// SECTION ZERO: Name your Groups (Types)
-        private enum Defs 	
+        
+/// SECTION ZERO: Name your Groups (Types)	
+		
+        private enum Defs
         {
             OneDrops,
             TwoDrops,
@@ -97,14 +78,9 @@ namespace SmartBot.Mulligan
 			/// START OF MULLIGAN RULES
 
 			/// SECTION ONE: Groups (Types)
-<<<<<<< HEAD
-			
-            Define(Defs.OneDrops, Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly);
-=======
 			// Combine cards in groups (types) if you want, like OneDrops, TwoDrops, Threedrops (you can create other groups/types in Section Zero)
 
 			Define(Defs.OneDrops, Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly);
->>>>>>> 032732533bb4793485f95ca769e326d4716b1330
 			Define(Defs.TwoDrops, Cards.DireWolfAlpha, Cards.DruidoftheSwarm);
 			Define(Defs.ThreeDrops, Cards.CryptLord, Cards.ViciousFledgling);
 			Define(Defs.OneDropMinions, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly);
@@ -126,15 +102,9 @@ namespace SmartBot.Mulligan
 							
             }
 
-<<<<<<< HEAD
-			/// Minion Count added Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly
-			
-			// 2x EnchantedRaven == +2, 1x EnchantedRaven == +1
-=======
 			/// MinionCount
 #region minionCount
 			// 2x EnchantedRaven == 2, 1x EnchantedRaven == 1
->>>>>>> 032732533bb4793485f95ca769e326d4716b1330
 			if (_keep.Contains(Cards.EnchantedRaven))
 			{
 				if (_keep.Contains(Cards.EnchantedRaven) && _choices.Contains(Cards.EnchantedRaven))
@@ -149,7 +119,7 @@ namespace SmartBot.Mulligan
 					}
 			}
 			
-			// 2x BloodsailCorsair == +3, 1x BloodsailCorsair == +2
+			// 2x BloodsailCorsair == 3, 1x BloodsailCorsair == 2
 			if (_keep.Contains(Cards.BloodsailCorsair))
 			{
 				if (_keep.Contains(Cards.BloodsailCorsair) && _choices.Contains(Cards.BloodsailCorsair))
@@ -164,7 +134,7 @@ namespace SmartBot.Mulligan
 					}
 			}
 			
-			// 2x FireFly == +4, 1x FireFly == +2
+			// 2x FireFly == 4, 1x FireFly == 2
 			if (_keep.Contains(Cards.FireFly))
 			{
 				if (_keep.Contains(Cards.FireFly) && _choices.Contains(Cards.FireFly))
