@@ -14,21 +14,21 @@ namespace SmartBot.Mulligan
         }
     }
     [Serializable]
+	/// Tips
+	/*
+		//		in front of text means it is a comment and does nothing
+		&&		AND
+		||		OR
+		!		NOT
+		x < y	less than (true if x is less than y).
+		x > y	greater than (true if x is greater than y).
+		x <= y	less than or equal to.
+		x >= y	greater than or equal to.
+		x == y	equal to
+		x != y	not equal to
+	*/
 	
-/*
-	//		in front of text means it is a comment and does nothing
-	&&		AND
-	||		OR
-	!		NOT
-	x < y	less than (true if x is less than y).
-	x > y	greater than (true if x is greater than y).
-	x <= y	less than or equal to.
-	x >= y	greater than or equal to.
-	x == y	equal to
-	x != y	not equal to
-*/
-	
-    public class Druid : MulliganProfile
+	public class Druid : MulliganProfile
     {
         
 /// SECTION ZERO: Name your Groups (Types)	
@@ -40,10 +40,11 @@ namespace SmartBot.Mulligan
             ThreeDrops,
 			OneDropMinions,
         }
+			/// Unnecesarry
+#region Unnecessary
+		/// DO NOT CHANGE ANYTHING BETWEEN THIS AND 'START OF MULLIGAN RULES'
 
-/// DO NOT CHANGE ANYTHING BETWEEN THIS AND 'START OF MULLIGAN RULES'
-
-        private string _log = "\r\n---Aggro_Druid_Advanced_1.1 Mulligan---"; 
+		private string _log = "\r\n---Aggro_Druid_Advanced_1.1 Mulligan---"; 
         private List<Card.Cards> _choices; 
         private readonly List<Card.Cards> _keep = new List<Card.Cards>();  //Defined list of cards we will keep. This is what needs to be filled in and returned in HandleMulligan
 
@@ -72,23 +73,22 @@ namespace SmartBot.Mulligan
                 _choices.Remove(Card.Cards.GAME_005);
                 _keep.Add(Card.Cards.GAME_005);
             }
-            
-/// START OF MULLIGAN RULES
+			#endregion 
+
+			/// START OF MULLIGAN RULES
 
 			/// SECTION ONE: Groups (Types)
-			/// Combine cards in groups (types) if you want, like OneDrops, TwoDrops, Threedrops (you can create other groups/types in Section Zero)
-			
-            Define(Defs.OneDrops, Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly);
+			// Combine cards in groups (types) if you want, like OneDrops, TwoDrops, Threedrops (you can create other groups/types in Section Zero)
+
+			Define(Defs.OneDrops, Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly);
 			Define(Defs.TwoDrops, Cards.DireWolfAlpha, Cards.DruidoftheSwarm);
 			Define(Defs.ThreeDrops, Cards.CryptLord, Cards.ViciousFledgling);
 			Define(Defs.OneDropMinions, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly);
-			// Minion Count begins
-			int minionCount = 0;
+			int minionCount = 0; // Minion Count begins
 			/// SECTION TWO: Cards we always keep, vs all classes:
+
+			Keep("-> We always keep this", Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly, Cards.MarkoftheLotus); 
 			
-            Keep("-> We always keep this", Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly, Cards.MarkoftheLotus); 
-			
-				
 			/// SECTION THREE: Cards we want to keep vs specific classes:
 			
             switch (opponentClass)
@@ -101,11 +101,9 @@ namespace SmartBot.Mulligan
 					break;		
 							
             }
-          
-			/// SECTION FOUR: advanced rules:
 
-			/// Minion Count added Cards.Innervate, Cards.BloodsailCorsair, Cards.EnchantedRaven, Cards.FireFly
-			
+			/// MinionCount
+#region minionCount
 			// 2x EnchantedRaven == 2, 1x EnchantedRaven == 1
 			if (_keep.Contains(Cards.EnchantedRaven))
 			{
@@ -151,9 +149,9 @@ namespace SmartBot.Mulligan
 					}
 				
 			}
-			
-			/// Minion Count Stops
-			
+			#endregion
+
+			/// SECTION FOUR: advanced rules:
 			if (_keep.Contains(Cards.Innervate))
 			{
 				Keep("-> with Innervate, keep Dr.3", Cards.ViciousFledgling);
