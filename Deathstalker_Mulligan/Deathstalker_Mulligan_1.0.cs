@@ -28,7 +28,7 @@ namespace SmartBot.Mulligan
     [Serializable]
 
 		
-    public class Hunter : MulliganProfile // If mulligan is not for Shaman, change 'Shaman' to applicable class name (Priest, Mage, etc.)
+    public class Hunter : MulliganProfile 
     {
         
 /// SECTION ZERO: Name your Groups (Types)	
@@ -37,9 +37,9 @@ namespace SmartBot.Mulligan
         //You also need to define them before using "Kept" "HasChoice" "KeptNumb" "HasChoiceNumb" or you will get an error
         private enum Defs
         {
-            OneDrops,
-            TwoDrops,
-            ThreeDrops
+            OneDropBeast,
+            TwoDropBeast,
+            ThreeDropBeast,
         }
 		/// Unnecessary
 #region Unnecessary
@@ -79,99 +79,58 @@ namespace SmartBot.Mulligan
 			/// START OF MULLIGAN RULES
 
 			/// SECTION ONE: Groups (Types)
-			/// Combine cards in groups (types) if you want, like OneDrops, TwoDrops, Threedrops (you can create other groups/types in Section Zero)
+			/// Combine cards in groups (types) if you want, like OneDrops, TwoDrops, Threedrops
 
-			Define(Defs.OneDrops, Cards.Alleycat, Cards.FieryBat, Cards.JeweledMacaw);
-			Define(Defs.TwoDrops, Cards.CracklingRazormaw, Cards.KindlyGrandmother);
+			Define(Defs.OneDropBeast, Cards.Alleycat);
+			Define(Defs.TwoDropBeast, Cards.KindlyGrandmother);
+			Define(Defs.ThreeDropBeast, Cards.AnimalCompanion, Cards.RatPack);
 
 			/// SECTION TWO: Cards we always keep, vs all classes:
 
-            Keep("-> We always keep this", Cards.JadeClaws, Cards.TotemGolem, Cards.TotemGolem); 
-			
-				
+            Keep("-> We always keep this", 
+				Cards.Alleycat, Cards.Alleycat, 
+				Cards.CracklingRazowmaw,
+				Cards.KindlyGrandmother, Cards.KindlyGrandmother,
+				Cards.MistressofMixtures, Cards.MistressofMixtures,
+				);
+
 			/// SECTION THREE: Cards we want to keep vs specific classes:
-			
-            switch (opponentClass)
+#region Classes
+			switch (opponentClass)
             {
                 
 				case Card.CClass.DRUID:
 						
-					Keep("-> keep vs Druid", Cards.TotemGolem, Cards.TotemGolem);
+					Keep("-> keep vs Druid", Cards.ArchmageAntonidas);
 					
-					break;		
-		
-			   case Card.CClass.HUNTER:
-				
-                    Keep("-> keep vs Hunter", Cards.TotemGolem, Cards.TotemGolem); 
-                    
-					break;				
-				
-				case Card.CClass.MAGE:
-				
-                    Keep("-> keep vs Mage", Cards.TotemGolem, Cards.TotemGolem); 
-
-					break;
-
-				case Card.CClass.PALADIN:
-				
-					Keep("-> keep vs Paladin", Cards.TotemGolem, Cards.TotemGolem);
-					
-					break;
-					
-				case Card.CClass.PRIEST:
-				
-					Keep("-> keep vs Priest", Cards.TotemGolem, Cards.TotemGolem);
-					
-					break;
-
-				case Card.CClass.ROGUE:
-
-					Keep("-> keep vs Quest Rogue", Cards.TotemGolem, Cards.TotemGolem); 
-
-					break;
-				
-				case Card.CClass.SHAMAN:
-                    
-					Keep("-> keep vs Shaman", Cards.TotemGolem, Cards.TotemGolem);
-									
-                    break;			
-				
-			   case Card.CClass.WARLOCK:
-				
-                    Keep("-> keep vs Warlock", Cards.TotemGolem, Cards.TotemGolem); 
-					
-                    break;
-					
-			   case Card.CClass.WARRIOR:
-                   
-					Keep("-> keep vs Warrior", Cards.TotemGolem, Cards.TotemGolem); 
-					
-                    break;					
+					break;						
             }
-          
+#endregion
+
 			/// SECTION FOUR: advanced mulligan rules:
-
-			// EXAMPLE: With coin, keep 2x Tunnel Trogg + Totem Golem:
-
-			if (coin && (_choices.Contains(Cards.TunnelTrogg) || _keep.Contains(Cards.TunnelTrogg)) && (_choices.Contains(Cards.TotemGolem) || _keep.Contains(Cards.TotemGolem)))
-            {
-                Keep("-> With coin, keep 2x Tunnel Trogg + Totem Golem)", Cards.TunnelTrogg, Cards.TunnelTrogg, Cards.TotemGolem); 
-            }
-
-			// EXAMPLE: Keep Animal Companion if we already have at least 1 OneDrop and at least 1 TwoDrop):
-			
-			if ((Kept(Defs.OneDrops) >= 1) && (Kept(Defs.TwoDrops) >= 1))
+			if (Kept(Defs.OneDropBeast) >= 1)
 			{
-				Keep("-> keep with 1-drop and 2-drop", Cards.AnimalCompanion)
+				Keep("-> keep both razowmaws with alleycat", Cards.CracklingRazormaw, Cards.CracklingRazormaw);
+			}
+			
+			if (Kept(Defs.TwoDropBeast) >= 1 || _keep.Contains(Cards.CracklingRazormaw))
+			{
+				Keep("-> keep animal companions, rat packs and a Stitched Tracker with a two-drop", 
+					Cards.AnimalCompanion, Cards.AnimalCompanion,
+					Cards.RatPack, Cards.RatPack,
+					Cards.StitchedTracker, Cards.StitchedTracker);
 			}
 
-			
-/// END OF MULLIGAN RULES
-						
-/// DO NOT CHANGE ANYTHING BELOW (except change Deathstalker_Mulligan_1.0 to the name of the mulligan profile in 4th line from the bottom)
-			
-			
-            PrintLog();
+			if (Kept(Defs.OneDropBeast) >= 1 || Kept(Defs.TwoDropBeast) >= 1 || Kept(Defs.ThreeDropBeast) >= 1)
+			{
+				Keep("-> keep a bow with anything", Cards.EaglehornBow);
+			}
+
+			/// END OF MULLIGAN RULES
+			#region END
+			/// DO NOT CHANGE ANYTHING BELOW (except change Deathstalker_Mulligan_1.0 to the name of the mulligan profile in 4th line from the bottom)
+
+			PrintLog();
             return _keep;
         }
         /// <summary>
@@ -244,5 +203,6 @@ namespace SmartBot.Mulligan
             Bot.Log(_log);
             _log = "\r\n---Deathstalker_Mulligan_1.0 Mulligan---";
         }
-    }
+#endregion
+	}
 }
