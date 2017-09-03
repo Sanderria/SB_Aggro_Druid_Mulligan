@@ -81,17 +81,18 @@ namespace SmartBot.Mulligan
 			/// SECTION ONE: Groups (Types)
 			/// Combine cards in groups (types) if you want, like OneDrops, TwoDrops, Threedrops
 
-			Define(Defs.OneDropBeast, Cards.Alleycat);
-			Define(Defs.TwoDropBeast, Cards.KindlyGrandmother);
+			Define(Defs.OneDropBeast, Cards.Alleycat, Cards.HungryCrab);
+			Define(Defs.TwoDropBeast, Cards.KindlyGrandmother, Cards.ScavengingHyena, Cards.GolakkaCrawler, Cards.DireWolfAlpha);
 			Define(Defs.ThreeDropBeast, Cards.AnimalCompanion, Cards.RatPack);
 
 			/// SECTION TWO: Cards we always keep, vs all classes:
 
             Keep("-> We always keep this", 
-				Cards.Alleycat, Cards.Alleycat, 
-				Cards.CracklingRazowmaw,
+				Cards.Alleycat, Cards.Alleycat,
+				Cards.HungryCrab,
+				Cards.CracklingRazormaw,
 				Cards.KindlyGrandmother, Cards.KindlyGrandmother,
-				Cards.MistressofMixtures, Cards.MistressofMixtures,
+				Cards.MistressofMixtures, Cards.MistressofMixtures
 				);
 
 			/// SECTION THREE: Cards we want to keep vs specific classes:
@@ -99,20 +100,46 @@ namespace SmartBot.Mulligan
 			switch (opponentClass)
             {
                 
-				case Card.CClass.DRUID:
+				case Card.CClass.PALADIN:
 						
-					Keep("-> keep vs Druid", Cards.ArchmageAntonidas);
+					Keep("-> keep both hungry crabs vs Paladin", Cards.HungryCrab, Cards.HungryCrab);
 					
 					break;						
             }
+			switch (opponentClass)
+			{
+				case Card.CClass.WARRIOR:
+
+					Keep("-> keep golakka crawler vs hunter", Cards.GolakkaCrawler);
+
+					if (Kept(Defs.OneDropBeast) >= 1 || Kept(Defs.TwoDropBeast) >= 1)
+					{
+						Keep("-> keep both golakkas with a twodrop beast or onedrop beast",
+							Cards.GolakkaCrawler, Cards.GolakkaCrawler);
+					}
+
+					break;
+			}
 #endregion
 
 			/// SECTION FOUR: advanced mulligan rules:
 			if (Kept(Defs.OneDropBeast) >= 1)
 			{
-				Keep("-> keep both razowmaws with alleycat", Cards.CracklingRazormaw, Cards.CracklingRazormaw);
+				Keep("-> keep both razorwmaws with alleycat or hungry crab", Cards.CracklingRazormaw, Cards.CracklingRazormaw);
+			}
+
+			if (Kept(Defs.OneDropBeast) >= 1)
+			{
+				Keep("-> keep golakka and dire wolf alpha with one drops",
+					Cards.GolakkaCrawler, Cards.GolakkaCrawler,
+					Cards.DireWolfAlpha);
 			}
 			
+			if (Kept(Defs.OneDropBeast) >= 1)
+			{
+				Keep("-> keep a hyena with hungry crab or alleycat", Cards.ScavengingHyena);
+			}
+
 			if (Kept(Defs.TwoDropBeast) >= 1 || _keep.Contains(Cards.CracklingRazormaw))
 			{
 				Keep("-> keep animal companions, rat packs and a Stitched Tracker with a two-drop", 
@@ -121,10 +148,29 @@ namespace SmartBot.Mulligan
 					Cards.StitchedTracker, Cards.StitchedTracker);
 			}
 
-			if (Kept(Defs.OneDropBeast) >= 1 || Kept(Defs.TwoDropBeast) >= 1 || Kept(Defs.ThreeDropBeast) >= 1)
+			if (Kept(Defs.OneDropBeast) >= 1 || Kept(Defs.TwoDropBeast) >= 1 || Kept(Defs.ThreeDropBeast) >= 1 || 
+				_keep.Contains(Cards.MistressofMixtures))
 			{
 				Keep("-> keep a bow with anything", Cards.EaglehornBow);
 			}
+
+			// Keep Houndmaster with 1 and 2 drop beast, 2x 2 drop beast or a 3 drop beast.
+			#region Houndmaster
+			if (Kept(Defs.TwoDropBeast) >= 1 && Kept(Defs.OneDropBeast) >= 1)
+			{
+				Keep("-> keep Houndmaster with a 1 drop beast and a 2 drop beast", Cards.Houndmaster);
+			}
+			else
+				if (Kept(Defs.TwoDropBeast) >= 2)
+				{
+					Keep("-> keep Houndmaster with 2x 2 drop beast", Cards.Houndmaster);
+				}
+			else
+				if (Kept(Defs.ThreeDropBeast) >= 1)
+				{
+				Keep("-> keep Houndmaster with a 3 drop beast", Cards.Houndmaster);
+				}
+			#endregion 
 
 			/// END OF MULLIGAN RULES
 			#region END
