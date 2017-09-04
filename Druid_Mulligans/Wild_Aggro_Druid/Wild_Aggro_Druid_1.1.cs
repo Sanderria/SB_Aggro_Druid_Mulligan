@@ -128,7 +128,7 @@ namespace SmartBot.Mulligan
 			}
 
 			//Double 1 double 2
-			if (Kept(Defs.One) > 1 || _keep.Contains(Cards.FireFly) || _keep.Contains(BloodsailCorsair)
+			if (Kept(Defs.One) > 1 || _keep.Contains(Cards.FireFly) || _keep.Contains(Cards.BloodsailCorsair)
 				&& _keep.Contains(Cards.GolakkaCrawler) || _keep.Contains(Cards.HauntedCreeper))
 			{
 				Keep("Keep 1 + 1 + 2 + 2", Cards.DruidoftheSwarm, Cards.HauntedCreeper, 
