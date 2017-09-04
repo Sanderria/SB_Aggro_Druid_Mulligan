@@ -20,8 +20,7 @@ namespace SmartBot.Mulligan
     [Serializable]
     public class Druid : MulliganProfile
     {
-
-        private static string _name = "Wild_Aggro_Druid_1.0";
+        private static string _name = "Wild_Aggro_Druid_1.1";
         private string _log = "\r\n---"+ _name +"---\r\n";
 
         private List<Card.Cards> _choices;
