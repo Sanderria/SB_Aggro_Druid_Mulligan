@@ -4,6 +4,17 @@ using System.Linq;
 using SmartBot.Database;
 using SmartBot.Plugins.API;
 
+#region PatchNotes
+/// v1.0, 
+	/// Release
+
+/// v1.1, 
+	/// Fixed LivingRoots under MarkoftheLotus, buffs. 
+	/// Will now keep GolakkaCrawler over HauntedCreeper vs Pirates. 
+	/// FireFly and BloodsailCorsair will count as double 1 under double 1 double 2.
+	/// 
+#endregion
+
 namespace SmartBot.Mulligan
 {
     [Serializable]
@@ -70,8 +81,8 @@ namespace SmartBot.Mulligan
                 }
             }
 
-            //1, 2
-            if (Kept(Defs.One) > 0)
+            //1, 2 if enemy class != IsPirateClass
+            if (Kept(Defs.One) > 0 && !IsPirateClass(opponentClass))
             {
                 Keep("Keep 1 drop into 2 drop", Cards.HauntedCreeper);
 
@@ -90,19 +101,40 @@ namespace SmartBot.Mulligan
 					}
 				}
             }
+			//1, 2 if enemy class == IsPirateClass
+			else if (Kept(Defs.One) > 0 && IsPirateClass(opponentClass))
+			{
+				Keep("Keep 1 drop into 2 drop", Cards.GolakkaCrawler);
 
-			//Keep double 2 with double 1
-			if (Kept(Defs.One) > 1 && _keep.Contains(Cards.GolakkaCrawler) || _keep.Contains(Cards.HauntedCreeper))
+				if (Kept(Defs.Two) == 0)
+				{
+					Keep("Keep 1 drop into 2 drop", Cards.HauntedCreeper);
+
+					if (Kept(Defs.Two) == 0)
+					{
+						Keep("Keep 1 drop into 2 drop", Cards.DruidoftheSwarm);
+
+						if (Kept(Defs.Two) == 0)
+						{
+							Keep("Keep 1 drop into 2 drop", Cards.PoweroftheWild);
+						}
+					}
+				}
+			}
+
+			//Coin Crab gaming
+			else if (IsPirateClass(opponentClass) && coin)
+			{
+				Keep("Keep Coin into Golakka vs pirate classes", Cards.GolakkaCrawler);
+			}
+
+			//Double 1 double 2
+			if (Kept(Defs.One) > 1 || _keep.Contains(Cards.FireFly) || _keep.Contains(BloodsailCorsair)
+				&& _keep.Contains(Cards.GolakkaCrawler) || _keep.Contains(Cards.HauntedCreeper))
 			{
 				Keep("Keep 1 + 1 + 2 + 2", Cards.DruidoftheSwarm, Cards.HauntedCreeper, 
 					Cards.PoweroftheWild); //Power here is unnecessary
 			}
-
-            //Coin Crab gaming
-            else if(IsPirateClass(opponentClass) && coin)
-            {
-                Keep("Keep Coin into Golakka vs pirate classes", Cards.GolakkaCrawler);
-            }
 
             //1, 2, 3 I can count
             if (Kept(Defs.One) > 0 && Kept(Defs.Two) > 0)
@@ -116,13 +148,21 @@ namespace SmartBot.Mulligan
                 Keep("Keep 1 into Coin and Fledgling", Cards.ViciousFledgling);
             }
 
-            //Mark of lotus, buffs
+            //MarkoftheLotus, buffs
             if (_keep.Contains(Cards.FireFly) || _keep.Contains(Cards.BloodsailCorsair) || Kept(Defs.One) >= 2)
             {
                 Keep("Keep buffs with minions", Cards.MarkoftheLotus, Cards.DireWolfAlpha, Cards.PoweroftheWild);
-            }
 
-            //Beast synrgy
+            }
+			else
+			{
+				if (_keep.Contains(Cards.LivingRoots) && !coin)
+				{
+					Keep("Keep buffs with minions", Cards.MarkoftheLotus, Cards.DireWolfAlpha, Cards.PoweroftheWild);
+				}
+			}
+
+            //Beast synergy
             if (_keep.Contains(Cards.EnchantedRaven) || _keep.Contains(Cards.GolakkaCrawler) 
 				|| _keep.Contains(Cards.HungryCrab) || _keep.Contains(Cards.DireWolfAlpha) 
 				|| _keep.Contains(Cards.PoweroftheWild) || _keep.Contains(Cards.HauntedCreeper))
