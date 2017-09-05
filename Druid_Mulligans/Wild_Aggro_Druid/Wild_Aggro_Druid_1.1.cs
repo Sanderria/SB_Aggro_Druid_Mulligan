@@ -148,7 +148,7 @@ namespace SmartBot.Mulligan
             }
 
             //MarkoftheLotus, buffs
-            if (_keep.Contains(Cards.FireFly) || _keep.Contains(Cards.BloodsailCorsair) || Kept(Defs.One) >= 2)
+            if (_keep.Contains(Cards.FireFly) || _keep.Contains(Cards.BloodsailCorsair) || Kept(Defs.One) > 1)
             {
                 Keep("Keep buffs with minions", Cards.MarkoftheLotus, Cards.DireWolfAlpha, Cards.PoweroftheWild);
 
