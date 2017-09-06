@@ -101,7 +101,7 @@ namespace SmartBot.Mulligan
 				}
             }
 			//1, 2 if enemy class == IsPirateClass
-			else if (Kept(Defs.One) > 0 && IsPirateClass(opponentClass))
+			if (Kept(Defs.One) > 0 && IsPirateClass(opponentClass))
 			{
 				Keep("Keep 1 drop into 2 drop", Cards.GolakkaCrawler);
 
@@ -122,7 +122,7 @@ namespace SmartBot.Mulligan
 			}
 
 			//Coin Crab gaming
-			else if (IsPirateClass(opponentClass) && coin)
+			if (IsPirateClass(opponentClass) && coin && Kept(Defs.One) == 0)
 			{
 				Keep("Keep Coin into Golakka vs pirate classes", Cards.GolakkaCrawler);
 			}
@@ -153,13 +153,11 @@ namespace SmartBot.Mulligan
                 Keep("Keep buffs with minions", Cards.MarkoftheLotus, Cards.DireWolfAlpha, Cards.PoweroftheWild);
 
             }
-			else
-			{
-				if (_keep.Contains(Cards.LivingRoots) && !coin)
+			else if (_keep.Contains(Cards.LivingRoots) && !coin)
 				{
 					Keep("Keep buffs with minions", Cards.MarkoftheLotus, Cards.DireWolfAlpha, Cards.PoweroftheWild);
 				}
-			}
+			
 
             //Beast synergy
             if (_keep.Contains(Cards.EnchantedRaven) || _keep.Contains(Cards.GolakkaCrawler) 
