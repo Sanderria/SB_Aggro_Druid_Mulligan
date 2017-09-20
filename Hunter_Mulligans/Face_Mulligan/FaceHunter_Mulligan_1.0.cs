@@ -84,7 +84,7 @@ namespace SmartBot.Mulligan
 				{
 					if (Kept(Defs.OneDropBeast) > 0)
 					{
-						Keep("VS Aggro + coin: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazowmaw, 
+						Keep("VS Aggro + coin: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazormaw, 
 							Cards.KindlyGrandmother, Cards.ScavengingHyena);
 					}
 					if (Kept(Defs.OneDropBeast) == 0 && Kept(Defs.OneDrops) > 0)
@@ -107,12 +107,16 @@ namespace SmartBot.Mulligan
 							Keep("VS Aggro + coin: Keep RatPack with onedrops && no twodropbeasts", Cards.RatPack);
 						}
 					}
+					if (Kept(Defs.OneDropBeast) > 0 && Kept(Defs.TwoDropBeast) > 0 && Kept(Defs.ThreeDropBeast) > 0)
+					{
+						Keep("VS Aggro + coin: Keep Houndmaster with one-, two- and threedropbeast", Cards.Houndmaster);
+					}
 				}
 				if (!coin)
 				{
 					if (Kept(Defs.OneDropBeast) > 0)
 					{
-						Keep("VS Aggro: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazowmaw, Cards.KindlyGrandmother,
+						Keep("VS Aggro: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazormaw, Cards.KindlyGrandmother,
 							Cards.ScavengingHyena);
 					}
 					if (Kept(Defs.OneDropBeast) == 0 && Kept(Defs.OneDrops) > 0)
@@ -128,7 +132,7 @@ namespace SmartBot.Mulligan
 			}
 
 			/// VS CONTROL
-			if (!Aggro(opponentClass))
+			if (Control(opponentClass))
 			{
 				Keep("-> Always keep vs control", Cards.Alleycat, Cards.Alleycat, Cards.FieryBat, Cards.BloodsailCorsair, Cards.HungryCrab, Cards.CracklingRazormaw,
 				Cards.DireWolfAlpha, Cards.KindlyGrandmother);
@@ -136,7 +140,7 @@ namespace SmartBot.Mulligan
 				{
 					if (Kept(Defs.OneDropBeast) > 0)
 					{
-						Keep("VS Control + coin: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazowmaw,
+						Keep("VS Control + coin: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazormaw,
 							Cards.GolakkaCrawler, Cards.ScavengingHyena);
 					}
 					if (Kept(Defs.OneDropBeast) == 0 && Kept(Defs.OneDrops) > 0)
@@ -162,7 +166,7 @@ namespace SmartBot.Mulligan
 					if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) == 0 && TargetRemoval(opponentClass))
 					{
 						Keep("VS Control(TargetRemoval) + coin: Keep Bearshark with onedrops && no twodropbeasts", Cards.Bearshark);
-						if (Kept(Defs.ThreeDrops) == 0)
+						if (Kept(Defs.ThreeDrops) == 0 || Kept(Defs.ThreeDropBeast) > 0)
 						{
 							Keep("VS Control(TargetRemoval) + coin: Keep Companion with onedrops && no twodropbeasts", Cards.AnimalCompanion);
 						}
@@ -171,12 +175,20 @@ namespace SmartBot.Mulligan
 							Keep("VS Control(TargetRemoval) + coin: Keep RatPack with onedrops && no twodropbeasts", Cards.RatPack);
 						}
 					}
+					if (Kept(Defs.OneDropBeast) > 0 && Kept(Defs.TwoDropBeast) > 0 && Kept(Defs.ThreeDropBeast) > 0)
+					{
+						Keep("VS Control + coin: Keep Houndmaster with one-, two- and threedropbeast", Cards.Houndmaster);
+					}
+					if (Kept(Defs.OneDropBeast) > 0 && Kept(Defs.ThreeDropBeast) > 1)
+					{
+						Keep("VS Control + coin: Keep Houndmaster with onedropbeast and 2x threedropbeast", Cards.Houndmaster);
+					}
 				}
 				if (!coin)
 				{
 					if (Kept(Defs.OneDropBeast) > 0)
 					{
-						Keep("VS Control: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazowmaw,
+						Keep("VS Control: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazormaw,
 							Cards.GolakkaCrawler, Cards.ScavengingHyena);
 					}
 					if (Kept(Defs.OneDropBeast) == 0 && Kept(Defs.OneDrops) > 0)
@@ -190,6 +202,57 @@ namespace SmartBot.Mulligan
 				}
 			}
 
+			/// VS PRIEST
+			if (Priest(opponentClass))
+			{
+				Keep("-> Always keep vs Priest", Cards.Alleycat, Cards.Alleycat, Cards.FieryBat, Cards.BloodsailCorsair, Cards.HungryCrab, Cards.CracklingRazormaw,
+				Cards.DireWolfAlpha, Cards.GolakkaCrawler);
+				if (coin)
+				{
+					if (Kept(Defs.OneDropBeast) > 0)
+					{
+						Keep("VS Priest + coin: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazormaw,
+							Cards.ScavengingHyena);
+					}
+					if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) > 0)
+					{
+						Keep("VS Priest + coin: Keep threedrops with onedrops and twodropbeasts", Cards.AnimalCompanion, Cards.RatPack, Cards.Bearshark);
+					}
+					if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) == 0)
+					{
+						Keep("VS Priest + coin: Keep Bearshark with onedrops && no twodropbeasts", Cards.Bearshark);
+						if (Kept(Defs.ThreeDrops) == 0 || Kept(Defs.ThreeDropBeast) > 0)
+						{
+							Keep("VS Priest + coin: Keep Companion with onedrops && no twodropbeasts", Cards.AnimalCompanion);
+						}
+						if (Kept(Defs.ThreeDrops) == 0)
+						{
+							Keep("VS Priest + coin: Keep RatPack with onedrops && no twodropbeasts", Cards.RatPack);
+						}
+					}
+					if (Kept(Defs.OneDropBeast) > 0 && Kept(Defs.TwoDropBeast) > 0 && Kept(Defs.ThreeDropBeast) > 0)
+					{
+						Keep("VS Priest + coin: Keep Houndmaster with one-, two- and threedropbeast", Cards.Houndmaster);
+					}
+					if (Kept(Defs.OneDropBeast) > 0 && Kept(Defs.ThreeDropBeast) > 1)
+					{
+						Keep("VS Priest + coin: Keep Houndmaster with onedropbeast and 2x threedropbeast", Cards.Houndmaster);
+					}
+				}
+				if (!coin)
+				{
+					if (Kept(Defs.OneDropBeast) > 0)
+					{
+						Keep("VS Priest: Keep double Razormaws and twodropbeasts with onedropbeasts", Cards.CracklingRazormaw, Cards.CracklingRazormaw,
+							Cards.ScavengingHyena);
+					}
+					if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) > 0)
+					{
+						Keep("VS Priest: Keep threedrops with onedrops and twodropbeasts", Cards.AnimalCompanion, Cards.RatPack, Cards.Bearshark);
+					}
+				}
+			}
+
 			PrintLog();
             return _keep;
         }
@@ -197,6 +260,15 @@ namespace SmartBot.Mulligan
 		{
 			return cClass == Card.CClass.DRUID || cClass == Card.CClass.WARRIOR || cClass == Card.CClass.ROGUE || cClass == Card.CClass.SHAMAN || cClass == Card.CClass.HUNTER
 				|| cClass == Card.CClass.PALADIN;
+		}
+		private bool Control(Card.CClass cClass)
+		{
+			return cClass == Card.CClass.MAGE || cClass == Card.CClass.WARLOCK;
+		}
+		// Yup, priest is on it's on because of potion of madness on Grandmother...
+		private bool Priest(Card.CClass cClass)
+		{
+			return cClass == Card.CClass.PRIEST;
 		}
 		private bool TargetRemoval(Card.CClass cClass)
 		{
