@@ -79,7 +79,7 @@ namespace SmartBot.Mulligan
 			if (Aggro(opponentClass))
 			{
 				Keep("-> Always keep vs aggro", Cards.Alleycat, Cards.Alleycat, Cards.FireFly, Cards.FireFly, Cards.FieryBat, Cards.BloodsailCorsair, 
-				Cards.HungryCrab, Cards.CraclingRazormaw, Cards.JeweledMacaw);
+				Cards.HungryCrab, Cards.CracklingRazormaw, Cards.JeweledMacaw);
 				if (coin)
 				{
 					if (Kept(Defs.TwoDropBeast) == 0)
