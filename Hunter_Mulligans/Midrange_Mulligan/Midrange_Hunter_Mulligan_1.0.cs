@@ -18,9 +18,6 @@ namespace SmartBot.Mulligan
     {
         
 /// SECTION ZERO: Name your Groups (Types)	
-		
-		//You need to add all new types of cards here before using them.
-        //You also need to define them before using "Kept" "HasChoice" "KeptNumb" "HasChoiceNumb" or you will get an error
         private enum Defs
         {
             OneDropBeast,
@@ -33,7 +30,7 @@ namespace SmartBot.Mulligan
 #region Unnecessary
 		/// DO NOT CHANGE ANYTHING BETWEEN THIS AND 'START OF MULLIGAN RULES'
 
-		private string _log = "\r\n---FaceHunter_Mulligan_1.0 Mulligan---"; 
+		private string _log = "\r\n---Midrange_Hunter_Mulligan_1.0---"; 
         private List<Card.Cards> _choices; 
         private readonly List<Card.Cards> _keep = new List<Card.Cards>();  //Defined list of cards we will keep. This is what needs to be filled in and returned in HandleMulligan
 
@@ -418,7 +415,7 @@ namespace SmartBot.Mulligan
         private void PrintLog()
         {
             Bot.Log(_log);
-            _log = "\r\n---FaceHunter_Mulligan_1.0---";
+            _log = "\r\n---Midrange_Hunter_1.0---";
         }
 #endregion
 	}
