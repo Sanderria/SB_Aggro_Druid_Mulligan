@@ -4,6 +4,13 @@ using System.Linq;
 using SmartBot.Database;
 using SmartBot.Plugins.API;
 
+// PatchLog:
+// 1.0
+// Release
+// 1.1
+// Will now always keep Houndmaster with 3 beast cards
+// Infested Wolf added
+
 namespace SmartBot.Mulligan
 {
     public static class Extension2
@@ -30,7 +37,7 @@ namespace SmartBot.Mulligan
 #region Unnecessary
 		/// DO NOT CHANGE ANYTHING BETWEEN THIS AND 'START OF MULLIGAN RULES'
 
-		private string _log = "\r\n---Midrange_Hunter_Mulligan_1.0---"; 
+		private string _log = "\r\n---Midrange_Hunter_Mulligan_1.1---"; 
         private List<Card.Cards> _choices; 
         private readonly List<Card.Cards> _keep = new List<Card.Cards>();  //Defined list of cards we will keep. This is what needs to be filled in and returned in HandleMulligan
 
@@ -120,6 +127,34 @@ namespace SmartBot.Mulligan
 					if (Kept(Defs.OneDropBeast) > 0 && Kept(Defs.TwoDropBeast) > 0 && Kept(Defs.ThreeDropBeast) > 0)
 					{
 						Keep("VS Aggro + coin: Keep Houndmaster with one-, two- and threedropbeast", Cards.Houndmaster);
+					}
+					int howManyBeasts = 0;
+					if (_choices.Contains(Cards.Houndmaster))
+					{
+						foreach (var card in _keep)
+						{
+							var cardID = CardTemplate.LoadFromId(card);
+							if (cardID.Race == Card.CRace.BEAST)
+							{
+								howManyBeasts++;
+							}
+						}
+						if (howManyBeasts == 3)
+						{
+							Keep("VS Aggro + coin: Keep Houndmaster with 3 beasts", Cards.Houndmaster);
+						}
+						else if (howManyBeasts == 2 && _keep.Contains(Cards.AnimalCompanion))
+						{
+							Keep("VS Aggro + coin: Keep Houndmaster with 2 beasts && animal companion", Cards.Houndmaster);
+						}
+					}
+					if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) > 0 && Kept(Defs.ThreeDrops) > 0)
+					{
+						Keep("VS Aggro + coin: Keep Infested Wolf with 1- 2- and 3- drops", Cards.InfestedWolf);
+					}
+					else if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) > 1)
+					{
+						Keep("VS Aggro + coin: Keep Infested Wolf with 1-, 2x 2drops", Cards.InfestedWolf);
 					}
 				}
 				if (!coin)
@@ -217,6 +252,34 @@ namespace SmartBot.Mulligan
 					{
 						Keep("VS Control + coin: Keep Houndmaster with onedropbeast and 2x threedropbeast", Cards.Houndmaster);
 					}
+					int howManyBeasts = 0;
+					if (_choices.Contains(Cards.Houndmaster))
+					{
+						foreach (var card in _keep)
+						{
+							var cardID = CardTemplate.LoadFromId(card);
+							if (cardID.Race == Card.CRace.BEAST)
+							{
+								howManyBeasts++;
+							}
+						}
+						if (howManyBeasts == 3)
+						{
+							Keep("VS Control + coin: Keep Houndmaster with 3 beasts", Cards.Houndmaster);
+						}
+						else if (howManyBeasts == 2 && _keep.Contains(Cards.AnimalCompanion))
+						{
+							Keep("VS Control + coin: Keep Houndmaster with 2 beasts && animal companion", Cards.Houndmaster);
+						}
+					}
+					if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) > 0 && Kept(Defs.ThreeDrops) > 0)
+					{
+						Keep("VS Control + coin: Keep Infested Wolf with 1- 2- and 3- drops", Cards.InfestedWolf);
+					}
+					else if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) > 1)
+					{
+						Keep("VS Control + coin: Keep Infested Wolf with 1-, 2x 2drops", Cards.InfestedWolf);
+					}
 				}
 				if (!coin)
 				{
@@ -291,6 +354,34 @@ namespace SmartBot.Mulligan
 					if (Kept(Defs.OneDropBeast) > 0 && Kept(Defs.TwoDropBeast) > 0 && Kept(Defs.ThreeDropBeast) > 0)
 					{
 						Keep("VS Priest + coin: Keep Houndmaster with one-, two- and threedropbeast", Cards.Houndmaster);
+					}
+					int howManyBeasts = 0;
+					if (_choices.Contains(Cards.Houndmaster))
+					{
+						foreach (var card in _keep)
+						{
+							var cardID = CardTemplate.LoadFromId(card);
+							if (cardID.Race == Card.CRace.BEAST)
+							{
+								howManyBeasts++;
+							}
+						}
+						if (howManyBeasts == 3)
+						{
+							Keep("VS Priest + coin: Keep Houndmaster with 3 beasts", Cards.Houndmaster);
+						}
+						else if (howManyBeasts == 2 && _keep.Contains(Cards.AnimalCompanion))
+						{
+							Keep("VS Priest + coin: Keep Houndmaster with 2 beasts && animal companion", Cards.Houndmaster);
+						}
+					}
+					if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) > 0 && Kept(Defs.ThreeDrops) > 0)
+					{
+						Keep("VS Priest + coin: Keep Infested Wolf with 1- 2- and 3- drops", Cards.InfestedWolf);
+					}
+					else if (Kept(Defs.OneDrops) > 0 && Kept(Defs.TwoDropBeast) > 1)
+					{
+						Keep("VS Priest + coin: Keep Infested Wolf with 1-, 2x 2drops", Cards.InfestedWolf);
 					}
 				}
 				if (!coin)
@@ -415,7 +506,7 @@ namespace SmartBot.Mulligan
         private void PrintLog()
         {
             Bot.Log(_log);
-            _log = "\r\n---Midrange_Hunter_1.0---";
+            _log = "\r\n---Midrange_Hunter_Mulligan_1.1---";
         }
 #endregion
 	}
