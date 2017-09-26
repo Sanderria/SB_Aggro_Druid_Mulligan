@@ -10,6 +10,8 @@ using SmartBot.Plugins.API;
 // 1.1
 // Will now always keep Houndmaster with 3 beast cards
 // Infested Wolf added
+// 1.2
+// Added Stitched Tracker to the group ThreeDrops
 
 namespace SmartBot.Mulligan
 {
