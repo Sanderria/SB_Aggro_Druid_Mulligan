@@ -70,7 +70,7 @@ namespace SmartBot.Mulligan
 			Define(Defs.OneDrops, Cards.JeweledMacaw, Cards.BloodsailCorsair, Cards.Alleycat, Cards.HungryCrab, Cards.FieryBat, Cards.FireFly);
 			Define(Defs.TwoDropBeast, Cards.KindlyGrandmother, Cards.ScavengingHyena, Cards.GolakkaCrawler, Cards.DireWolfAlpha, Cards.CracklingRazormaw);
 			Define(Defs.ThreeDropBeast, Cards.AnimalCompanion, Cards.RatPack, Cards.Bearshark);
-			Define(Defs.ThreeDrops, Cards.AnimalCompanion, Cards.RatPack, Cards.Bearshark, Cards.EaglehornBow);
+			Define(Defs.ThreeDrops, Cards.StitchedTracker, Cards.AnimalCompanion, Cards.RatPack, Cards.Bearshark, Cards.EaglehornBow);
 
 			/// VS AGGRO
 			if (Aggro(opponentClass))
